@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我喜欢你</title>
+  <style>
+    /* 全局样式 */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 提问界面 */
+    .question-box {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      animation: pulse 2s infinite;
+    }
+
+    h1 {
+      font-size: 50px;
+      color: #ff0000;
+      font-weight: bold;
+      border: 3px solid blue;
+      display: inline-block;
+      padding: 10px;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    .button {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      cursor: pointer;
+      text-align: center;
+      margin: 0 10px;
+    }
+
+    #no {
+      background-color: #666;
+      color: white;
+      animation: shake 0.5s infinite;
+    }
+
+    #yes {
+      background-color: #ff0000;
+      color: white;
+      animation: pulse 2s infinite;
+    }
+
+    /* 同意界面 */
+    .agree-box {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ff0000;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .heart {
+      font-size: 200px;
+      color: white;
+      animation: heartbeat 2s infinite;
+      margin-bottom: 20px;
+    }
+
+    .love-text {
+      font-size: 40px;
+      color: white;
+      font-weight: bold;
+      animation: heartbeat 2s infinite;
+    }
+
+    .flowers {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-repeat: no-repeat;
+      background-size: contain;
+      animation: fade-in 1s ease-in forwards;
+    }
+
+    /* 404界面 */
+    .error-box {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #666;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .error-text {
+      font-size: 40px;
+      color: white;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .back-button {
+      padding: 15px 30px;
+      background-color: #ff0000;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    /* 动画效果 */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    @keyframes fade-in {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 提问界面 -->
+  <div class="question-box">
+    <h1>我喜欢你，能做我对象吗？</h1>
+    <div class="buttons">
+      <button class="button" id="no">不同意</button>
+      <button class="button" id="yes">同意</button>
+    </div>
+  </div>
+
+  <!-- 同意界面 -->
+  <div class="agree-box">
+    <div class="flowers" style="background-image: url('https://picsum.photos/1024');"></div>
+    <div class="heart">❤️</div>
+    <div class="love-text">爱你！💖</div>
+    <audio autoplay loop>
+      <source src="https://www.southmoravian-ca.cz/data/uploads/extra_images/music/CAThemeSong.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- 404界面 -->
+  <div class="error-box">
+    <div class="error-text">404 - 现在不会拒绝了吧</div>
+    <button class="back-button" id="backButton">返回</button>
+  </div>
+
+  <script>
+    const noButton = document.getElementById('no');
+    const yesButton = document.getElementById('yes');
+    const agreeBox = document.querySelector('.agree-box');
+    const errorBox = document.querySelector('.error-box');
+    const questionBox = document.querySelector('.question-box');
+    const backButton = document.getElementById('backButton');
+
+    // 初始界面设置
+    errorBox.style.display = 'none'; // 确保页面加载时显示问题界面
+    agreeBox.style.display = 'none';
+
+    // 点击“不同意”按钮
+    noButton.addEventListener('click', () => {
+      questionBox.style.display = 'none';
+      errorBox.style.display = 'flex';
+    });
+
+    // 点击“同意”按钮
+    yesButton.addEventListener('click', () => {
+      questionBox.style.display = 'none';
+      agreeBox.style.display = 'flex';
+    });
+
+    // 点击“返回问题界面”按钮
+    backButton.addEventListener('click', () => {
+      errorBox.style.display = 'none';
+      questionBox.style.display = 'flex';
+    });
+  </script>
+</body>
+</html>
