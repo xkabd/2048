@@ -81,7 +81,6 @@ function renderBoard() {
         }
     }
     scoreElement.textContent = score;
-    updateUndoCount();
 }
 
 function move(direction) {
@@ -258,13 +257,8 @@ function move(direction) {
         }
     }
     if (moved) {
-        undoState.push(prevBoard);
+        undoState.push(JSON.parse(JSON.stringify(board)));
         undoButton.disabled = false;
-        undoCount--;
-        undoCountElement.textContent = undoCount;
-        if (undoCount === 0) {
-            undoButton.disabled = true;
-        }
         addRandomTile();
         renderBoard();
         if (isGameOver()) {
@@ -349,7 +343,8 @@ function resetGame() {
     initBoard();
     clearInterval(interval);
     startTimer();
-    updateUndoCount();
+    undoCountElement.textContent = undoCount;
+    undoButton.disabled = true;
 }
 
 function startTimer() {
@@ -371,15 +366,6 @@ function showResult() {
         loseTimeElement.textContent = `${time}s`;
         loseUndoElement.textContent = 5 - undoCount;
         loseScreen.style.display = 'flex';
-    }
-}
-
-function updateUndoCount() {
-    undoCountElement.textContent = undoCount;
-    if (undoCount === 5) {
-        undoButton.disabled = false;
-    } else {
-        undoButton.disabled = true;
     }
 }
 
